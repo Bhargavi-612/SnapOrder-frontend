@@ -1,7 +1,6 @@
-import landingImage from "../assets/landing.png";
-import appDownloadImage from "../assets/appDownload.png";
 import SearchBar, { SearchForm } from "@/components/SearchBar";
 import { useNavigate } from "react-router-dom";
+import Helmet from "react-helmet";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -13,6 +12,14 @@ const HomePage = () => {
   };
 
   return (
+    <div>
+      <Helmet>
+        <title>SnapOrder - Order, Pay, and Grab Away</title>
+        <meta
+          name="description"
+          content="SnapOrder is your one-stop solution for hassle-free pre-ordering of food and stationery. Simplify your day with quick orders, secure payments, and no waiting in lines!"
+        />
+      </Helmet>
     <div className="flex flex-col gap-40">
       <div className="md:px-32 bg-white rounded-lg shadow-md py-8 flex flex-col gap-5 text-center -mt-80">
         <h1 className="text-5xl font-bold tracking-tight text-teal-600">
@@ -20,7 +27,7 @@ const HomePage = () => {
         </h1>
         <span className="text-xl">Quick Picks for Every Day!</span>
         <SearchBar
-          placeHolder="Search by City or Town"
+          placeHolder="Search by Organization"
           onSubmit={handleSearchSubmit}
         />
       </div>
@@ -36,6 +43,7 @@ const HomePage = () => {
           With features like order status updates, secure payments, and a comprehensive order history, SnapOrder ensures a seamless and efficient experience for both customers and vendors. Simplify your day with just a few clicks!
           </span>
       </div>
+    </div>
     </div>
   );
 };

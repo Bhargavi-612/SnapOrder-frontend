@@ -38,7 +38,7 @@ const DetailsSection = () => {
           name="city"
           render={({ field }) => (
             <FormItem className="flex-1">
-              <FormLabel>City</FormLabel>
+              <FormLabel>Organization</FormLabel>
               <FormControl>
                 <Input {...field} className="bg-white" />
               </FormControl>
@@ -51,7 +51,7 @@ const DetailsSection = () => {
           name="country"
           render={({ field }) => (
             <FormItem className="flex-1">
-              <FormLabel>Country</FormLabel>
+              <FormLabel>City</FormLabel>
               <FormControl>
                 <Input {...field} className="bg-white" />
               </FormControl>

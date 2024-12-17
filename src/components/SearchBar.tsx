@@ -74,6 +74,7 @@ const SearchBar = ({ onSubmit, onReset, placeHolder, searchQuery }: Props) => {
         />
 
         <Button
+          id="reset"
           onClick={handleReset}
           type="button"
           variant="outline"
@@ -81,7 +82,7 @@ const SearchBar = ({ onSubmit, onReset, placeHolder, searchQuery }: Props) => {
         >
           Reset
         </Button>
-        <Button type="submit" className="rounded-full bg-teal-600">
+        <Button id="search" type="submit" className="rounded-full bg-teal-600">
           Search
         </Button>
       </form>

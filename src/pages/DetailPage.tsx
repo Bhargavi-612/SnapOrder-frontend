@@ -10,6 +10,10 @@ import { MenuItem as MenuItemType } from "../types";
 import CheckoutButton from "@/components/CheckoutButton";
 import { UserFormData } from "@/forms/user-profile-form/UserProfileForm";
 import { useCreateCheckoutSession } from "@/api/OrderApi";
+import RazorpayPayment from "@/components/Razorpay";
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export type CartItem = {
   _id: string;
@@ -19,10 +23,41 @@ export type CartItem = {
 };
 
 const DetailPage = () => {
+  const { user } = useAuth0();
+  const [totalCost, setTotalCost] = useState(0);
   const { restaurantId } = useParams();
   const { restaurant, isLoading } = useGetRestaurant(restaurantId);
   const { createCheckoutSession, isLoading: isCheckoutLoading } =
     useCreateCheckoutSession();
+  
+    const [isModalOpen, setModalOpen] = useState(false);
+    const handleOpenModal = async () => {
+      if (!restaurant) {
+        console.log("yo");
+        return;
+      }
+      if(!user) {
+        return;
+      }
+      const checkoutData = {
+        cartItems: cartItems.map((cartItem) => ({
+          menuItemId: cartItem._id,
+          name: cartItem.name,
+          quantity: cartItem.quantity.toString(),
+        })),
+        restaurantId: restaurant._id,
+        deliveryDetails: {
+          name: user.name || "100",
+          addressLine1: "100",
+          city: "100",
+          email: user.email || "100",
+        },
+      };
+      const data = await createCheckoutSession(checkoutData);
+      setTotalCost(data.totalCost);
+      setModalOpen(true);
+    }
+    const handleCloseModal = () => setModalOpen(false);
 
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}`);
@@ -138,14 +173,36 @@ const DetailPage = () => {
             <CardFooter>
               <CheckoutButton
                 disabled={cartItems.length === 0}
-                onCheckout={onCheckout}
+                onCheckout={handleOpenModal}
                 isLoading={isCheckoutLoading}
               />
             </CardFooter>
           </Card>
         </div>
       </div>
-    </div>
+
+        <div>
+        {/* Modal */}
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <Card className="w-full max-w-md p-6 bg-white dark:bg-gray-800">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Checkout</h2>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleCloseModal}
+                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                >
+                  <X className="h-6 w-6" />
+                </Button>
+              </div>
+              <RazorpayPayment onClose={handleCloseModal} totalCost={totalCost}/>
+            </Card>
+          </div>
+        )}
+      </div>
+      </div>
   );
 };
 

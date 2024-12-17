@@ -56,11 +56,17 @@ const OrderItemCard = ({ order }: Props) => {
             </span>
           </div>
           <div>
+            Customer Email:
+            <span className="ml-2 font-normal">
+              {order.deliveryDetails.email}
+            </span>
+          </div>
+          {/* <div>
             Delivery address:
             <span className="ml-2 font-normal">
               {order.deliveryDetails.addressLine1}, {order.deliveryDetails.city}
             </span>
-          </div>
+          </div> */}
           <div>
             Time:
             <span className="ml-2 font-normal">{getTime()}</span>
