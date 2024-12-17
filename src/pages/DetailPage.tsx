@@ -25,6 +25,7 @@ export type CartItem = {
 const DetailPage = () => {
   const { user } = useAuth0();
   const [totalCost, setTotalCost] = useState(0);
+  const [OrderId, setOrderId] = useState(null);
   const { restaurantId } = useParams();
   const { restaurant, isLoading } = useGetRestaurant(restaurantId);
   const { createCheckoutSession, isLoading: isCheckoutLoading } =
@@ -55,6 +56,7 @@ const DetailPage = () => {
       };
       const data = await createCheckoutSession(checkoutData);
       setTotalCost(data.totalCost);
+      setOrderId(data.orderId);
       setModalOpen(true);
     }
     const handleCloseModal = () => setModalOpen(false);
@@ -197,7 +199,7 @@ const DetailPage = () => {
                   <X className="h-6 w-6" />
                 </Button>
               </div>
-              <RazorpayPayment onClose={handleCloseModal} totalCost={totalCost}/>
+              <RazorpayPayment onClose={handleCloseModal} totalCost={totalCost} order_id={OrderId}/>
             </Card>
           </div>
         )}

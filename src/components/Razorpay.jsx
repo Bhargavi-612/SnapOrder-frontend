@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 
-const RazorpayPayment = ({ onClose, totalCost }) => {
+const RazorpayPayment = ({ onClose, totalCost, order_id }) => {
   const [amount, setAmount] = useState("");
   const [currency, setCurrency] = useState("INR");
   const [loading, setLoading] = useState(false);
@@ -40,7 +40,7 @@ const RazorpayPayment = ({ onClose, totalCost }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ amount: totalCost/100 }),
+        body: JSON.stringify({ amount: totalCost/100, orderId: order_id }),
       });
 
       const order = await response.json();
