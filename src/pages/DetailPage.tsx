@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { MenuItem as MenuItemType } from "../types";
 import CheckoutButton from "@/components/CheckoutButton";
-import { UserFormData } from "@/forms/user-profile-form/UserProfileForm";
+// import { UserFormData } from "@/forms/user-profile-form/UserProfileForm";
 import { useCreateCheckoutSession } from "@/api/OrderApi";
 import RazorpayPayment from "@/components/Razorpay";
 import { Button } from "@/components/ui/button";
@@ -116,30 +116,30 @@ const DetailPage = () => {
     });
   };
 
-  const onCheckout = async (userFormData: UserFormData) => {
-    if (!restaurant) {
-      return;
-    }
+  // const onCheckout = async (userFormData: UserFormData) => {
+  //   if (!restaurant) {
+  //     return;
+  //   }
 
-    const checkoutData = {
-      cartItems: cartItems.map((cartItem) => ({
-        menuItemId: cartItem._id,
-        name: cartItem.name,
-        quantity: cartItem.quantity.toString(),
-      })),
-      restaurantId: restaurant._id,
-      deliveryDetails: {
-        name: userFormData.name,
-        addressLine1: userFormData.addressLine1,
-        city: userFormData.city,
-        country: userFormData.country,
-        email: userFormData.email as string,
-      },
-    };
+  //   const checkoutData = {
+  //     cartItems: cartItems.map((cartItem) => ({
+  //       menuItemId: cartItem._id,
+  //       name: cartItem.name,
+  //       quantity: cartItem.quantity.toString(),
+  //     })),
+  //     restaurantId: restaurant._id,
+  //     deliveryDetails: {
+  //       name: userFormData.name,
+  //       addressLine1: userFormData.addressLine1,
+  //       city: userFormData.city,
+  //       country: userFormData.country,
+  //       email: userFormData.email as string,
+  //     },
+  //   };
 
-    const data = await createCheckoutSession(checkoutData);
-    window.location.href = data.url;
-  };
+  //   const data = await createCheckoutSession(checkoutData);
+  //   window.location.href = data.url;
+  // };
 
   if (isLoading || !restaurant) {
     return "Loading...";
