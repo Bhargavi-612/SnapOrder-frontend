@@ -4,6 +4,8 @@ import { Button } from "./ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const RazorpayPayment = ({ onClose, totalCost, order_id }) => {
   const [amount, setAmount] = useState("");
   const [currency, setCurrency] = useState("INR");
@@ -35,7 +37,7 @@ const RazorpayPayment = ({ onClose, totalCost, order_id }) => {
 
     try {
       console.log(amount)
-      const response = await fetch("http://localhost:7000/api/order/checkout/makePayment", {
+      const response = await fetch(`${API_BASE_URL}/api/order/checkout/makePayment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
